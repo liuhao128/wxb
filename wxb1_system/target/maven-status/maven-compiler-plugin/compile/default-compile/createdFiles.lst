@@ -1,0 +1,17 @@
+com\qf\controller\GoodController.class
+com\qf\controller\UserExpInfoController.class
+com\qf\service\impl\CustomerServiceImpl.class
+com\qf\controller\UserInfoController.class
+com\qf\service\RoleService.class
+com\qf\service\UserExpInfoService.class
+com\qf\service\GoodService.class
+com\qf\service\impl\GoodServiceImpl.class
+com\qf\controller\RoleController.class
+com\qf\service\CustomerService.class
+com\qf\service\impl\UserExpInfoServiceImpl.class
+com\qf\controller\CustomerController.class
+com\qf\controller\UserController.class
+com\qf\service\UserInfoService.class
+com\qf\controller\PageController.class
+com\qf\service\impl\RoleServiceImpl.class
+com\qf\service\impl\UserInfoServiceImpl.class

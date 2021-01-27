@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qf.dao.UserInfoDao">
+
+    <resultMap id="UserInfoMap" type="UserInfo">
+        <id property="id" column="user_id" />
+        <result property="name" column="user_name" />
+        <result property="account" column="account" />
+        <result property="password" column="password" />
+        <result property="remark" column="remark" />
+        <result property="enabled" column="enabled" />
+        <result property="loginTime" column="login_time" />
+        <association property="role" javaType="Role" select="com.qf.dao.RoleDao.selectRoleByUserId" column="user_id"  />
+    </resultMap>
+
+    <sql id="userInfoColumns">
+        user_id, user_name, account, password, remark, enabled, login_time
+    </sql>
+
+    <select id="selectUserInfoByAccountAndPassword" resultMap="UserInfoMap">
+        select <include refid="userInfoColumns" />
+        from user_info
+        where account = #{account}
+        and password = #{password}
+    </select>
+
+
+    <resultMap id="moduleMap" type="module">
+        <id property="code" column="module_code" />
+        <result property="name" column="module_name" />
+        <result property="url" column="link_url" />
+        <result property="order" column="module_order" />
+        <result property="parent" column="parent_module" />
+        <result property="desc" column="module_desc" />
+        <result property="expanded" column="expanded" />
+        <result property="leaf" column="leaf" />
+        <result property="roleId" column="role_id" />
+        <collection property="childModuleList" ofType="Module" select="selectAllModule" column="{parent=module_code, roleId=role_id}" />
+    </resultMap>
+
+    <sql id="moduleColumns">
+        module_code, module_name, link_url, module_order, parent_module, module_desc, expanded, leaf
+    </sql>
+
+    <select id="selectAllModule" resultMap="moduleMap">
+        select
+            m.module_code,
+            m.module_name,
+            m.link_url,
+            m.module_order,
+            m.parent_module,
+            m.module_desc,
+            m.expanded,
+            m.leaf,
+            rf.role_id
+        from
+            sys_module as m
+            inner join sys_role_fun as rf
+            on m.module_code = rf.module_id
+        where
+            rf.role_id = #{roleId} and m.parent_module = #{parent} order by module_order
+    </select>
+
+    <select id="selectUserInfoByUserId" resultMap="UserInfoMap">
+        select <include refid="userInfoColumns" />
+        from user_info
+        where user_id = #{userId}
+    </select>
+
+    <update id="updatePassword" >
+        update user_info
+        set password = #{password}
+        where user_id = #{userId}
+    </update>
+
+    <select id="selectAllUserInfo" resultMap="UserInfoMap">
+        select <include refid="userInfoColumns" />
+        from user_info
+    </select>
+
+    <insert id="addUserInfo">
+        insert into user_info (user_id, user_name, account, password, remark, enabled, login_time)
+        values (#{id}, #{name}, #{account}, #{password}, #{remark}, #{enabled}, #{loginTime})
+    </insert>
+
+    <delete id="deleteUserInfo">
+        delete from user_info
+        where user_id = #{userId}
+    </delete>
+
+    <update id="updateUserInfo">
+        update user_info
+        set user_name = #{name}, account = #{account}, password = #{password}, remark = #{remark}, enabled = #{enabled}, login_time = #{loginTime}
+        where user_id = #{id}
+    </update>
+
+    <update id="updateEnable" >
+        update user_info
+        set enabled = #{enabled}
+        where user_id = #{userId}
+    </update>
+
+
+</mapper>

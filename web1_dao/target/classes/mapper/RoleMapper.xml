@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qf.dao.RoleDao">
+
+    <resultMap id="roleMap" type="role">
+        <id property="code" column="role_code" />
+        <result property="name" column="role_name" />
+        <result property="desc" column="role_desc" />
+        <result property="order" column="role_order" />
+        <result property="type" column="role_type" />
+    </resultMap>
+
+    <sql id="roleColumns">
+        role_code, role_name, role_desc, role_order, role_type
+    </sql>
+    <!-- 根据user_id查询所有角色 -->
+    <select id="selectRoleByUserId" resultMap="roleMap">
+        select
+            r.role_code, r.role_name, r.role_desc, r.role_order, r.role_type
+        from
+            sys_role as r inner join sys_user_role as ur on r.role_code = ur.role_id
+        where
+            user_id = #{id}
+    </select>
+
+    <!-- 查询所有角色 -->
+    <select id="selectAllRole" resultMap="roleMap">
+        select
+            <include refid="roleColumns" />
+        from
+            sys_role
+    </select>
+
+
+    <resultMap id="authTreeNodeMap" type="AuthTreeNode">
+        <id property="id" column="module_code" />
+        <result property="title" column="module_name" />
+        <collection property="children" ofType="AuthTreeNode" select="selectAllModule" column="module_code" />
+    </resultMap>
+
+    <select id="selectAllModule" resultMap="authTreeNodeMap">
+        select
+        module_code, module_name
+        from
+        sys_module
+        where
+        parent_module = #{parent}
+    </select>
+
+    <select id="selectModuleIdByRoleId" resultType="java.lang.String">
+        select
+        module_id
+        from
+        sys_role_fun
+        where
+        role_id = #{code}
+    </select>
+
+    <delete id="deleteModuleIdByRoleId">
+        delete from sys_role_fun where role_id = #{roleId}
+    </delete>
+
+    <insert id="insertFun">
+        insert into sys_role_fun (module_id, role_id) values
+        <foreach collection="moduleIds" item="moduleId" separator=",">
+            (#{moduleId}, #{roleId})
+        </foreach>
+    </insert>
+
+    <insert id="addRole" >
+        insert into sys_role
+        values (#{code}, #{name}, #{desc}, #{order}, #{type})
+    </insert>
+
+    <delete id="deleteRole" >
+        delete from sys_role where role_code = #{code}
+    </delete>
+
+    <select id="getRole" resultMap="roleMap">
+        select <include refid="roleColumns"></include>
+        from sys_role
+        where role_code = #{code}
+    </select>
+
+    <update id="updateRole" >
+        update sys_role
+        set role_code = #{code}, role_name = #{name}, role_desc = #{desc}, role_order = #{order}, role_type = #{type}
+        where role_code = #{code}
+    </update>
+</mapper>

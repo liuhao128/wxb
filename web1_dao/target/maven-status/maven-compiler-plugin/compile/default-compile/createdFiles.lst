@@ -1,0 +1,5 @@
+com\qf\dao\CustomerDao.class
+com\qf\dao\GoodDao.class
+com\qf\dao\RoleDao.class
+com\qf\dao\UserInfoDao.class
+com\qf\dao\UserExpInfoDao.class
