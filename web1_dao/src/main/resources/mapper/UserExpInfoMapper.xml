@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qf.dao.UserExpInfoDao">
+
+    <resultMap id="userExpInfoMap" type="userExpInfo">
+        <id property="userId" column="user_id" />
+        <result property="sex" column="sex" />
+        <result property="nickName" column="nick_name" />
+        <result property="email" column="email" />
+        <result property="qqNum" column="qq_num" />
+        <result property="telephone" column="telephone" />
+        <result property="loginNum" column="login_num" />
+    </resultMap>
+
+    <sql id="UserExpInfoColumns">
+        user_id, sex, nick_name, email, qq_num, telephone, login_num
+    </sql>
+
+    <select id="selectUserExpInfoByUserId" resultMap="userExpInfoMap">
+        select <include refid="UserExpInfoColumns" />
+        from user_exp_info
+        where user_id = #{userId}
+    </select>
+
+    <update id="updateUserExpInfo">
+        update user_exp_info
+        set sex = #{sex}, nick_name = #{nickName}, email = #{email}, qq_num = #{qqNum}, telephone = #{telephone}, login_num = #{loginNum}
+        where user_id = #{userId}
+    </update>
+</mapper> 

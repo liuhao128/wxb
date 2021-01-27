@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qf.dao.GoodDao">
+
+    <resultMap id="goodMap" type="good">
+        <id column="good_id" jdbcType="VARCHAR" property="goodId" />
+        <result column="good_name" jdbcType="VARCHAR" property="goodName" />
+        <result column="customer_id" jdbcType="VARCHAR" property="customerId" />
+        <result column="good_pic1" jdbcType="VARCHAR" property="goodPic1" />
+        <result column="good_pic2" jdbcType="VARCHAR" property="goodPic2" />
+        <result column="good_pic3" jdbcType="VARCHAR" property="goodPic3" />
+        <result column="promote_desc" jdbcType="VARCHAR" property="promoteDesc" />
+        <result column="copy_ids" jdbcType="VARCHAR" property="copyIds" />
+        <result column="copy_desc" jdbcType="VARCHAR" property="copyDesc" />
+        <result column="forward_link" jdbcType="VARCHAR" property="forwardLink" />
+        <result column="order_no" jdbcType="INTEGER" property="orderNo" />
+        <result column="type_id" jdbcType="VARCHAR" property="typeId" />
+        <result column="tags" jdbcType="VARCHAR" property="tags" />
+        <result column="state" jdbcType="INTEGER" property="state" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="toped" jdbcType="INTEGER" property="toped" />
+        <result column="recomed" jdbcType="INTEGER" property="recomed" />
+        <result column="toped_time" jdbcType="TIMESTAMP" property="topedTime" />
+        <result column="recomed_time" jdbcType="TIMESTAMP" property="recomedTime" />
+        <result column="spc_id" jdbcType="VARCHAR" property="spcId" />
+        <result column="zon_id" jdbcType="VARCHAR" property="zonId" />
+        <result column="sell_num" jdbcType="INTEGER" property="sellNum" />
+        <result column="website" jdbcType="VARCHAR" property="website" />
+        <result column="kfqq" jdbcType="VARCHAR" property="kfqq" />
+    </resultMap>
+
+    <sql id="goodColumns">
+    good_id, good_name, customer_id, good_pic1, good_pic2, good_pic3, promote_desc, copy_ids,
+    copy_desc, forward_link, order_no, type_id, tags, state, create_time, toped, recomed,
+    toped_time, recomed_time, spc_id, zon_id, sell_num, website, kfqq
+  </sql>
+
+    <select id="selectAllGood" resultMap="goodMap">
+        select <include refid="goodColumns" />
+        from wxb_good
+    </select>
+
+    <select id="selectOneGood" resultMap="goodMap" >
+        select <include refid="goodColumns" />
+        from wxb_good
+        where good_id = #{goodId}
+    </select>
+
+    <update id="updateState" >
+        update wxb_good
+        set state = #{state}
+        where good_id = #{goodId}
+    </update>
+
+</mapper> 

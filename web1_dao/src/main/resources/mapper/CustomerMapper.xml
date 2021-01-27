@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qf.dao.CustomerDao">
+
+    <resultMap id="CustomerMap" type="Customer">
+        <id column="customer_id"  property="customerId" />
+        <result column="customer_name" property="customerName" />
+        <result column="QQ"  property="qq" />
+        <result column="wxh"  property="wxh" />
+        <result column="phone"  property="phone" />
+        <result column="create_time"  property="createTime" />
+        <result column="login_name"  property="loginName" />
+        <result column="login_pwd"  property="loginPwd" />
+        <result column="state"  property="state" />
+        <result column="level"  property="level" />
+        <result column="acc_balance"  property="accBalance" />
+        <result column="update_time"  property="updateTime" />
+        <result column="website"  property="website" />
+    </resultMap>
+
+    <sql id="customerColumn">
+    customer_id, customer_name, QQ, wxh, phone, create_time, login_name, login_pwd, state,
+    level, acc_balance, update_time, website
+  </sql>
+
+    <select id="selectAllCustomer" resultMap="CustomerMap">
+        select <include refid="customerColumn" />
+        from wxb_customer
+    </select>
+
+    <insert id="addOneCustomer">
+        insert into wxb_customer
+        values (#{customerId}, #{customerName}, #{qq}, #{wxh}, #{phone}, #{createTime}, #{loginName}, #{loginPwd}, #{state},
+                #{level}, #{accBalance}, #{updateTime}, #{website})
+    </insert>
+
+    <delete id="deleteOneCustomer" >
+        delete from wxb_customer
+        where customer_id = #{customerId}
+    </delete>
+
+    <select id="selectOneCustomer" resultMap="CustomerMap">
+        select <include refid="customerColumn" />
+        from  wxb_customer
+        where customer_id = #{customerId}
+    </select>
+
+    <update id="updateCustomer" >
+        update wxb_customer
+        set  customer_name = #{customerName}, QQ = #{qq}, wxh = #{wxh}, phone = #{phone},
+             create_time = #{createTime}, login_name = #{loginName}, login_pwd = #{loginPwd}, state = #{state},
+             level = #{level},  acc_balance = #{accBalance}, update_time = #{updateTime}, website = #{website}
+        where customer_id = #{customerId}
+    </update>
+
+    <update id="updateState">
+        update wxb_customer
+        set state = #{state}
+        where customer_id = #{customerId}
+    </update>
+
+</mapper> 
