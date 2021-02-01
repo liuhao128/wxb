@@ -15,5 +15,10 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_STRING" value="-encoding UTF8" />
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="web1_dao" options="" />
+      <module name="wxb1_pojo" options="" />
+      <module name="wxb1_system" options="" />
+    </option>
   </component>
 </project>

@@ -22,6 +22,7 @@ public class RoleServiceImpl implements RoleService  {
 
     @Override
     public List<Role> getAllRole() {
+
         return roleDao.selectAllRole();
     }
 
