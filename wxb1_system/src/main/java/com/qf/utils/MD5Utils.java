@@ -1,4 +1,4 @@
-﻿package com.qf.utils;
+package com.qf.utils;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;
